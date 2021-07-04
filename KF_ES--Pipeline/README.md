@@ -13,21 +13,21 @@ Please contact **Waldir Berbel-Filho** (waldirmbf@gmail.com) should any question
 ### 1) Genome Editing:
 
 zcat ~/Desktop/msGBS_data/ES-Article/ES-Genome/GCA_007896545.1_ASM789654v1_genomic.fna.gz | awk '{split($0,a," "); print a[1]'} > ~/Desktop/msGBS_data/ES-Article/ES-Genome/GCA_007896545.1_ASM789654v1_genomic.Edited.fna
-#
+***
 
 ### 2) Genome Indexing (Bowtie2):
 
 ```
 /data/home/waldir/Desktop/msGBS_data/Tools/bowtie2-2.3.4.3-linux-x86_64/bowtie2-2.3.5-linux-x86_64/bowtie2-build ~/Desktop/msGBS_data/ES-Article/ES-Genome/GCA_007896545.1_ASM789654v1_genomic.Edited.fna ES-Genome
 ```
-#
+***
 
 ### 3) Genome Indexing (Samtools):
 
 ```
 samtools faidx ~/Desktop/msGBS_data/ES-Article/ES-Genome/GCA_007896545.1_ASM789654v1_genomic.Edited.fna
 ```
-#
+***
 
 ### 4) Mapping:
 
@@ -46,6 +46,7 @@ done < ~/Desktop/msGBS_data/ES-Article/ES-ListOfSamples_Edited_Strings.txt &> ~/
 ```
 
 ##### _Number of SITES_: **257,984**
+***
 
 
 ### 6) SNP Calling | ANGSD--v0.929
@@ -123,8 +124,9 @@ done | xsbatch -c 4 --mem-per-cpu 1024 --max-array-jobs 9 -J ngsAdmix -R --time 
 ```
 ***
 
-### READS' PROCESSING AND MAPPING | PaleoMix v1.3.2 #
+### 10) READS' PROCESSING AND MAPPING | PaleoMix v1.3.2 #
 
+```
 module load Python
 module load AdapterRemoval Bowtie2
 module load SAMtools/1.10-GCC-8.3.0
@@ -142,75 +144,106 @@ chmod +x /scratch/waldirmbf/ES-Article_PaleoMix_OutGroup_Output/ToRunPaleoMix_WG
 
 sbatch /scratch/waldirmbf/ES-Article_PaleoMix_Output/ToRunPaleoMix.sbatch
 sbatch /scratch/waldirmbf/ES-Article_PaleoMix_OutGroup_Output/ToRunPaleoMix_WGS_OutGroup.sbatch
+```
 
-###                                          ###
-# GLOBAL COVERAGE DISTRUBUTION | ANGSD--v0.929 #
-###                                          ###
+### 11) GLOBAL COVERAGE DISTRUBUTION | ANGSD--v0.929
 
+```
 /home/waldirmbf/Software/angsd/angsd -nThreads 2 -ref /home/waldirmbf/ES-Article_REFGenome/GCA_007896545.1_ASM789654v1_genomic.Edited.fasta -bam /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_SITES.BAMlist -remove_bads 1 -uniqueOnly 1 -baq 1 -C 50 -minMapQ 30 -minQ 20 -minInd $((48*95/100)) -doCounts 1 -dumpCounts 2 -maxDepth $((48*1000)) -out /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_SITES.depth
+```
 
 > # of SITES: 256,247
 
+```
 chmod +x /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_SITES.depth.sbatch
 sbatch /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_SITES.depth.sbatch
+```
 
-###                                           ###
-# CREATION OF SPECIFIC DATASETS | ANGSD--v0.932 #
-###                                           ###
 
->>> Dataset 0 | ALL GOOD SAMPLES (SITES / 48 SAMPLES):
+### 12) Creation of Specific Datasets
 
-# BAM List:
+> We used [ANGSD--v0.932](http://www.popgen.dk/angsd/index.php/ANGSD) to create specific datasets to be used by different downstream analyses.
+#
 
+#### 12.1) ALL GOOD SAMPLES (SITES / 48 SAMPLES):
+
+> [`Dataset 0`](./KF_ES--Datasets/KF_ES--Dataset_0/)
+
+##### Gets list of samples:
+
+```
 find /scratch/waldirmbf/ES-SortedIndexed/*.bam /scratch/waldirmbf/ES-Article_PaleoMix_Output/*.bam > /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_SITES.BAMlist
+```
 
-# ANGSD Run:
+##### Runs ANGSD:
 
+```
 /home/waldirmbf/Software/angsd/angsd -nThreads 2 -ref /home/waldirmbf/ES-Article_REFGenome/GCA_007896545.1_ASM789654v1_genomic.Edited.fasta -bam /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_SITES.BAMlist -remove_bads 1 -uniqueOnly 1 -baq 1 -C 50 -minMapQ 30 -minQ 20 -minInd $((48*95/100)) -doCounts 1 -GL 1 -doGlf 2 -doMajorMinor 1 -doMaf 1 -doPost 2 -doGeno 3 -doPlink 2 -geno_minDepth 3 -setMaxDepth $((48*600)) -dumpCounts 2 -postCutoff 0.95 -doHaploCall 1 -out /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_SITES
+```
 
-> # of SITES: 115,397
+##### _Number of SITES_: 115,397
 
+```
 chmod +x /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_SITES.sbatch
 sbatch /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_SITES.sbatch
 
 > /scratch/waldirmbf/ES-Article_ANGSDRuns/jobname_36812980_stderr.txt
+```
 
-# Real Coverage Calculation:
+##### Gets Real Coverage (_Genotype Likelihoods_):
 
+```
 zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_SITES.counts.gz | tail -n +2 | gawk ' {for (i=1;i<=NF;i++){a[i]+=$i;++count[i]}} END{ for(i=1;i<=NF;i++){print a[i]/count[i]}}' | paste /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_SITES.labels - > /scratch/waldirmbf/ES-Article_Miscellaneous/ES-Article_ES-RealCoverage/ES-Article--AllSamples_SITES.GL-RealCoverage.txt
+```
 
-# Missing Data Calculation:
+##### Gets Missing Data (_Genotype Likelihoods_):
 
+```
 zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_SITES.beagle.gz | tail -n +2 | perl /home/waldirmbf/Software/Scripts/call_geno.pl --skip 3 | cut -f 4- | awk '{ for(i=1;i<=NF; i++){ if($i==-1)x[i]++} } END{ for(i=1;i<=NF; i++) print i"\t"x[i] }' | paste /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_SITES.labels - | awk '{print $1"\t"$3"\t"$3*100/115397}' > /scratch/waldirmbf/ES-Article_Miscellaneous/ES-Article--AllSamples_SITES.GL-MissingData.txt
+```
+#
 
->>> Dataset 1 | ALL GOOD SAMPLES / NO Hybrids (SITES / 46 SAMPLES):
+#### 12.2) ALL GOOD SAMPLES / NO Hybrids (SITES / 46 SAMPLES):
 
-# BAM List:
+> [`Dataset 1`](./KF_ES--Datasets/KF_ES--Dataset_1/)
 
+##### Gets list of samples:
+
+```
 fgrep -v -f /scratch/waldirmbf/ES-Article_Lists/ES-Article--BadSamples.list /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_SITES.BAMlist > /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoHybrids_SITES.BAMlist
+```
 
-# ANGSD Run:
+##### Runs ANGSD:
 
+```
 /home/waldirmbf/Software/angsd/angsd -nThreads 2 -ref /home/waldirmbf/ES-Article_REFGenome/GCA_007896545.1_ASM789654v1_genomic.Edited.fasta -bam /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoHybrids_SITES.BAMlist  -remove_bads 1 -uniqueOnly 1 -baq 1 -C 50 -minMapQ 30 -minQ 20 -minInd $((46*95/100)) -doCounts 1 -GL 1 -doGlf 2 -doMajorMinor 1 -doMaf 1 -doPost 2 -doGeno 3 -doPlink 2 -geno_minDepth 3 -setMaxDepth $((46*600)) -dumpCounts 2 -postCutoff 0.95 -doHaploCall 1 -out /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoHybrids_SITES
+```
 
-> # of SITES: 115,909
+##### _Number of SITES_: 115,909
 
+```
 chmod +x /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoHybrids_SITES.sbatch
 sbatch /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoHybrids_SITES.sbatch
 
 > /scratch/waldirmbf/ES-Article_ANGSDRuns/jobname_36904983_stderr.txt
+```
 
-# Real Coverage Calculation:
+##### Gets Real Coverage (_Genotype Likelihoods_):
 
+```
 zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoHybrids_SITES.counts.gz | tail -n +2 | gawk ' {for (i=1;i<=NF;i++){a[i]+=$i;++count[i]}} END{ for(i=1;i<=NF;i++){print a[i]/count[i]}}' | paste /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoHybrids_SITES.labels - > /scratch/waldirmbf/ES-Article_Miscellaneous/ES-Article_ES-RealCoverage/ES-Article--AllSamples_NoHybrids_SITES.GL-RealCoverage.txt
+```
 
-# Missing Data Calculation:
+##### Gets Missing Data (_Genotype Likelihoods_):
 
+```
 zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoHybrids_SITES.beagle.gz | tail -n +2 | perl /home/waldirmbf/Software/Scripts/call_geno.pl --skip 3 | cut -f 4- | awk '{ for(i=1;i<=NF; i++){ if($i==-1)x[i]++} } END{ for(i=1;i<=NF; i++) print i"\t"x[i] }' | paste /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoHybrids_SITES.labels - | awk '{print $1"\t"$3"\t"$3*100/115909}' > /scratch/waldirmbf/ES-Article_Miscellaneous/ES-Article--AllSamples_NoHybrids_SITES.GL-MissingData.txt
+```
+***
 
 ### NJ PHYLOGENY | RAxML-NG--v1.0.1 ###
 
-# First we convert the HAPLO file into a FASTA:
+##### Converts the .haplo file into a .fasta file:
 
 zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoHybrids_SITES.haplo.gz | cut -f 4- | tail -n +2 | perl /home/waldirmbf/Software/Scripts/tsv_merge.pl --transp --ofs '' - | awk 'NR==FNR{id=$1; sub(".*\\/","",id); sub("\\..*","",id); x[FNR]=id} NR!=FNR{ print ">"x[FNR]"\n"$1}' /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoHybrids_SITES.labels - > /scratch/waldirmbf/ES-Article_Phylogenies/ES-Article_ML/ES-Article--AllSamples_NoHybrids_SITES.fasta
 
@@ -250,7 +283,7 @@ zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoHybrids_SI
 
 /home/waldirmbf/Software/RAxML-NG/raxml-ng --threads 2 --support --tree /scratch/waldirmbf/ES-Article_Phylogenies/ES-Article_ML/ES-Article--AllSamples_NoHybrids_SITES_100s.raxml.bestTree --bs-trees /scratch/waldirmbf/ES-Article_Phylogenies/ES-Article_ML/ES-Article--AllSamples_NoHybrids_SITES_100s.BOOTs.raxml.bootstraps --prefix /scratch/waldirmbf/ES-Article_Phylogenies/ES-Article_ML/ES-Article--AllSamples_NoHybrids_SITES_100s.SUPPORTED
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+***
 
 ###                         ###
 # SNP CALLING | ANGSD--v0.929 #
