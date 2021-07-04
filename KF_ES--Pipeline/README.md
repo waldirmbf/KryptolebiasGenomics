@@ -152,7 +152,7 @@ sbatch /scratch/waldirmbf/ES-Article_PaleoMix_OutGroup_Output/ToRunPaleoMix_WGS_
 /home/waldirmbf/Software/angsd/angsd -nThreads 2 -ref /home/waldirmbf/ES-Article_REFGenome/GCA_007896545.1_ASM789654v1_genomic.Edited.fasta -bam /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_SITES.BAMlist -remove_bads 1 -uniqueOnly 1 -baq 1 -C 50 -minMapQ 30 -minQ 20 -minInd $((48*95/100)) -doCounts 1 -dumpCounts 2 -maxDepth $((48*1000)) -out /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_SITES.depth
 ```
 
-> # of SITES: 256,247
+##### _Number of SITES_: 256,247
 
 ```
 chmod +x /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_SITES.depth.sbatch
@@ -323,11 +323,11 @@ sbatch /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKg
 
 > /scratch/waldirmbf/ES-Article_ANGSDRuns/jobname_36943160_stderr.txt
 
-# Real Coverage Calculation:
+#### Gets Real Coverage:
 
 zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_SITES.counts.gz | tail -n +2 | gawk ' {for (i=1;i<=NF;i++){a[i]+=$i;++count[i]}} END{ for(i=1;i<=NF;i++){print a[i]/count[i]}}' | paste /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoKbraNoKgra_SITES.labels - > /scratch/waldirmbf/ES-Article_Miscellaneous/ES-Article_ES-RealCoverage/ES-Article--AllSamples_NoKbraNoKgra_SITES.GL-RealCoverage.txt
 
-# Missing Data Calculation:
+##### Gets Missing Data:
 
 zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_SITES.beagle.gz | tail -n +2 | perl /home/waldirmbf/Software/Scripts/call_geno.pl --skip 3 | cut -f 4- | awk '{ for(i=1;i<=NF; i++){ if($i==-1)x[i]++} } END{ for(i=1;i<=NF; i++) print i"\t"x[i] }' | paste /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoKbraNoKgra_SITES.labels - | awk '{print $1"\t"$3"\t"$3*100/863662}' > /scratch/waldirmbf/ES-Article_Miscellaneous/ES-Article--AllSamples_NoKbraNoKgra_SITES.GL-MissingData.txt
 
@@ -342,18 +342,22 @@ sbatch /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_WithWGSs_N
 
 >>> /scratch/waldirmbf/ES-Article_ANGSDRuns/jobname_36942918_stderr.txt
 
-# Real Coverage Calculation:
+##### Gets Real Coverage:
 
+```
 zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.counts.gz | tail -n +2 | gawk ' {for (i=1;i<=NF;i++){a[i]+=$i;++count[i]}} END{ for(i=1;i<=NF;i++){print a[i]/count[i]}}' | paste /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoKbraNoKgra_SITES.labels - > /scratch/waldirmbf/ES-Article_Miscellaneous/ES-Article_ES-RealCoverage/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.GL-RealCoverage.txt
+```
 
-# Missing Data Calculation:
+##### Gets Missing Data:
 
+```
 zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.beagle.gz | tail -n +2 | perl /home/waldirmbf/Software/Scripts/call_geno.pl --skip 3 | cut -f 4- | awk '{ for(i=1;i<=NF; i++){ if($i==-1)x[i]++} } END{ for(i=1;i<=NF; i++) print i"\t"x[i] }' | paste /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoKbraNoKgra_SITES.labels - | awk '{print $1"\t"$3"\t"$3*100/9532}' > /scratch/waldirmbf/ES-Article_Miscellaneous/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.GL-MissingData.txt
+```
 
-###                                            ###
-# ESTIMATION OF INDIVIDUAL ANCESTRIES | ngsAdmix #
-###                                            ###
 
+### ESTIMATION OF INDIVIDUAL ANCESTRIES | ngsAdmix
+
+```
 export N_REP=100
 
 for K in `seq -w 2 3`
@@ -366,50 +370,60 @@ chmod +x /scratch/waldirmbf/ES-Article_ngsAdmix/ToRunadmix_ES-Article--AllSample
 sbatch /scratch/waldirmbf/ES-Article_ngsAdmix/ToRunadmix_ES-Article--AllSamples_WithWGSs_NoKbraNkgra_SITES_WGSs.sbatch
 
 cat /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoKbraNoKgra_SITES.labels | awk '{split($0,a,"_"); print $1"\t"a[1]"_"a[3]}' > /scratch/waldirmbf/ES-Article_ngsAdmix/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.annot
+```
+***
 
-###                                              ###
-#  MULTIDIMENSIONAL SCALING | ngsDist + get_PCA.R  #
-###                                              ###
+###  MULTIDIMENSIONAL SCALING | ngsDist + get_PCA.R
 
 ## Here are perform a multidimensional scaling anlyse on the genetic distance matrix created above:
 
-# To get distance matrix:
+##### Gets genetic distance matrix:
 
+```
 install.packages('libgsl')
 
 /home/waldirmbf/Software/ngsDist/ngsDist --n_threads 2 --geno /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_WithWGSs_SNPs.beagle.gz --pairwise_del --seed 11 --probs --n_ind 48 --n_sites 1810 --labels /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_SITES.labels --out /scratch/waldirmbf/ES-Article_MDS/ES-Article--AllSamples_WithWGSs_SNPs.dist
 
 /home/waldirmbf/Software/ngsDist/ngsDist --n_threads 2 --geno /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.beagle.gz --pairwise_del --seed 18 --probs --n_ind 33 --n_sites 9532 --labels /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoKbraNoKgra_SITES.labels --out /scratch/waldirmbf/ES-Article_MDS/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.dist
+```
 
-# To perform MDS:
+##### Performs MDS:
 
+```
 tail -n +3 /scratch/waldirmbf/ES-Article_MDS/ES-Article--AllSamples_WithWGSs_SNPs.dist | Rscript --vanilla --slave /home/waldirmbf/Software/Scripts/get_PCA.R --no_header --data_symm -n 10 -m "mds" -o /scratch/waldirmbf/ES-Article_MDS/ES-Article--AllSamples_WithWGSs_SNPs.mds
 
 tail -n +3 /scratch/waldirmbf/ES-Article_MDS/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.dist | Rscript --vanilla --slave /home/waldirmbf/Software/Scripts/get_PCA.R --no_header --data_symm -n 10 -m "mds" -o /scratch/waldirmbf/ES-Article_MDS/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.mds
+```
 
-# Create .annot file:
+##### Creates `.annot` file:
 
+```
 cat /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_SITES.labels | awk '{split($0,a,"_"); print $1"\t"a[1]"_"a[3]}' > /scratch/waldirmbf/ES-Article_MDS/ES-Article--AllSamples_WithWGSs_SNPs.annot
 
 cat /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoKbraNoKgra_SITES.labels | awk '{split($0,a,"_"); print $1"\t"a[1]"_"a[3]}' > /scratch/waldirmbf/ES-Article_MDS/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.annot
+```
+***
 
-#### HETEROZYGOSITY CALCULATION ####
+### HETEROZYGOSITY CALCULATION
 
 ## Here we calculate the percentage of heterozygous genotypes in our NoSNPCalling sites.
 
-# First we generate a '.bed' file based on the '.mafs' of this run:
+##### Generates a `.bed` file based on the `.mafs` file:
 
 zcat /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_SITES.mafs.gz | cut -f1,2 | tail -n +2 | awk '{print $1"\t"$2-1"\t"$2}' | bedtools merge -i - > /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/ES-Article--AllSamples_NoKbraNoKgra_SITES.bed
 
-# After we create a position file based on this new  '.bed' and index it accordingly usings ANGSD:
+##### Creates a `.pos` file based on this new `.bed` and index it accordingly:
 
+```
 awk '{print $1"\t"($2+1)"\t"$3}' /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/ES-Article--AllSamples_NoKbraNoKgra_SITES.bed > /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/ES-Article--AllSamples_NoKbraNoKgra_SITES.pos
 
 
 /home/waldirmbf/Software/angsd/angsd sites index /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/ES-Article--AllSamples_NoKbraNoKgra_SITES.pos
+```
 
-# Getting files:
+##### Gets files:
 
+```
 parallel --plus --dryrun /home/waldirmbf/Software/angsd/angsd -i {} -ref /home/waldirmbf/ES-Article_REFGenome/GCA_007896545.1_ASM789654v1_genomic.Edited.fasta -anc /home/waldirmbf/ES-Article_REFGenome/GCA_007896545.1_ASM789654v1_genomic.Edited.fasta -sites /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/ES-Article--AllSamples_NoKbraNoKgra_SITES.pos -GL 1 -doSaf 1 -fold 1 -remove_bads 1 -uniqueOnly 1 -baq 1 -C 50 -minMapQ 30 -minQ 20 -out /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/{/...} :::: /scratch/waldirmbf/ES-Article_Lists/ES-Article--AllSamples_NoKbraNoKgra_SITES.BAMlist
 
 chmod +x /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/ToRunHet_ES-Article--AllSamples_WithWGSs_NoKbraNkgra_SITES.sbatch
@@ -425,15 +439,21 @@ sbatch /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/ToRunHet_ES-Articl
 
 > /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/jobname_37869116_stderr.txt
 > /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/jobname_37870855_stderr.txt
+```
 
-# Getting fractions:
+##### Gets fractions:
 
+```
 parallel --plus "/home/waldirmbf/Software/angsd/misc/realSFS {} > /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/{/..}.het" ::: /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/*.saf.idx
+```
 
-# Finally, we calculate the percentage of heterozygous sites:
+##### Calculates the percentage of heterozygous sites:
 
+```
 fgrep '.' *.het | tr ":" " " | awk '{print $1"\t"$3/($2+$3)*100}' | gawk '{print $1"\t"$2"\t"lol[1]}' | sort -k 1,1gr | awk '{split($0,a,"."); print a[1]"\t"$2"\t"$3'} > /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article_Het/ES-Article--AllSamples_NoKbraNoKgra_SITES.Heterozygosity.txt
+```
 
-# We locally plot these results using the Rscript below:
+##### These results were plotted using the Rscript below:
 
-> PBGP--ToPlotProportionOfHeterozygousSites.R
+PBGP--ToPlotProportionOfHeterozygousSites.R
+***
