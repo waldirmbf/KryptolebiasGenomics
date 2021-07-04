@@ -1,86 +1,101 @@
-
-
 # **Genetic analysis with SNPs from msGBS library**
-ES-Killfish Project Pipeline | Ultra Documentation - by George Pacheco [![Foo](../ORCID-iD.png)](https://orcid.org/0000-0002-9367-6813)  and Waldir M. Berbel-Filho [![Foo](../ORCID-iD.png)](https://orcid.org/0000-0001-6991-4685)
+
+
+### ES-Killfish Project Pipeline - by **George PACHECO** [![Foo](../KF_ES--GitHubAuxiliaryFiles/ORCIDGreenRoundIcon.png)](https://orcid.org/0000-0002-9367-6813) & **Waldir M. BERBEL-FILHO** [![Foo](../KF_ES--GitHubAuxiliaryFiles/ORCIDGreenRoundIcon.png)](https://orcid.org/0000-0001-6991-4685)
 
 
 This documentation outlines the pipelines used for genetic analysis (SNPs genotypes and sites extracted from msGBS library) in the preprint manuscript
 
-Last Modified :XXXXXX            
+Please contact **Waldir Berbel-Filho** (waldirmbf@gmail.com) should any questions arise.
+***
+***
 
-Please, contact george.pacheco@snm.ku.dk or waldirmbf@gmail.com should any question arise.
-
-__________________________________________
-
-####               ###
-# KFGP -- ES-Article #
-###   4 Oct 2020   ###
-
-# Genome Editing:
+### 1) Genome Editing:
 
 zcat ~/Desktop/msGBS_data/ES-Article/ES-Genome/GCA_007896545.1_ASM789654v1_genomic.fna.gz | awk '{split($0,a," "); print a[1]'} > ~/Desktop/msGBS_data/ES-Article/ES-Genome/GCA_007896545.1_ASM789654v1_genomic.Edited.fna
+#
 
-# Genome Indexing (Bowtie2):
+### 2) Genome Indexing (Bowtie2):
 
+```
 /data/home/waldir/Desktop/msGBS_data/Tools/bowtie2-2.3.4.3-linux-x86_64/bowtie2-2.3.5-linux-x86_64/bowtie2-build ~/Desktop/msGBS_data/ES-Article/ES-Genome/GCA_007896545.1_ASM789654v1_genomic.Edited.fna ES-Genome
+```
+#
 
-# Genome Indexing (Samtools):
+### 3) Genome Indexing (Samtools):
 
+```
 samtools faidx ~/Desktop/msGBS_data/ES-Article/ES-Genome/GCA_007896545.1_ASM789654v1_genomic.Edited.fna
+```
+#
 
-# Mapping:
+### 4) Mapping:
 
+```
 while read i;
 do
 /data/home/waldir/Desktop/msGBS_data/Tools/bowtie2-2.3.4.3-linux-x86_64/bowtie2-2.3.5-linux-x86_64/bowtie2 -q --threads 8 -x ~/Desktop/msGBS_data/ES-Article/ES-Genome/ES-Genome -U ~/Desktop/msGBS_data/ES-Article/ES-GBS_Samples/$i.fq -S ~/Desktop/msGBS_data/ES-Article/ES-SAMs/$i.sam && samtools view -bS ~/Desktop/msGBS_data/ES-Article/ES-SAMs/$i.sam > ~/Desktop/msGBS_data/ES-Article/ES-First_BAMs/$i.bam && samtools sort ~/Desktop/msGBS_data/ES-Article/ES-First_BAMs/$i.bam -o ~/Desktop/msGBS_data/ES-Article/ES-SortedIndexed/$i.bam && samtools index ~/Desktop/msGBS_data/ES-Article/ES-SortedIndexed/$i.bam && mv ~/Desktop/msGBS_data/ES-Article/ES-SortedIndexed/$i.bam.bai ~/Desktop/msGBS_data/ES-Article/ES-SortedIndexed/$i.bai
 done < ~/Desktop/msGBS_data/ES-Article/ES-ListOfSamples_Edited_Strings.txt &> ~/Desktop/msGBS_data/ES-Article/ES-Mapping.txt
+```
+***
 
-###                                          ###
-# GLOBAL COVERAGE DISTRUBUTION | ANGSD--v0.929 #
-###                                          ###
+### 5) Global Coverage Distribution | ANGSD--v0.929
 
+```
 ~/Desktop/msGBS_data/Tools/ngsTools/angsd/angsd -nThreads 2 -ref ~/Desktop/msGBS_data/ES-Article/ES-Genome/GCA_007896545.1_ASM789654v1_genomic.Edited.fna -bam ~/Desktop/msGBS_data/ES-Article/ES-Lists/ES-Article--AllSamples.BAMlist -remove_bads 1 -uniqueOnly 1 -baq 1 -C 50 -minMapQ 30 -minQ 20 -minInd $((42*95/100)) -doCounts 1 -dumpCounts 2 -maxDepth $((42*1000)) -out ~/Desktop/msGBS_data/ES-Article/ES-ANGSDRuns/ES-Article--AllSamples.depth
+```
 
-> # of SITES: 257,984
+##### _Number of SITES_: **257,984**
 
-###                         ###
-# SNP CALLING | ANGSD--v0.929 #
-###                         ###
 
+### 6) SNP Calling | ANGSD--v0.929
+
+```
 ~/Desktop/msGBS_data/Tools/ngsTools/angsd/angsd -nThreads 2 -ref ~/Desktop/msGBS_data/ES-Article/ES-Genome/GCA_007896545.1_ASM789654v1_genomic.Edited.fasta -bam ~/Desktop/msGBS_data/ES-Article/ES-Lists/ES-Article--AllSamples.BAMlist -remove_bads 1 -uniqueOnly 1 -baq 1 -C 50 -minMapQ 30 -minQ 20 -minInd $((42*95/100)) -doCounts 1 -GL 1 -doGlf 2 -doMajorMinor 1 -doMaf 1 -MinMaf 0.03 -SNP_pval 1e-6 -doPost 2 -doGeno 3 -doPlink 2 -geno_minDepth 3 -setMaxDepth $((42*600)) -dumpCounts 2 -postCutoff 0.95 -doHaploCall 1 -doVcf 1 -out ~/Desktop/msGBS_data/ES-Article/ES-ANGSDRuns/ES-Article--AllSamples_SNPs
+```
 
-> # of SNPs: 2,060
+##### _Number of SNPs_: **2,060**
 
-# Real Coverage Calculation:
+##### Gets Real Coverage (_Genotype Likelihoods_):
 
+```
 zcat ~/Desktop/msGBS_data/ES-Article/ES-ANGSDRuns/ES-Article--AllSamples_SNPs.counts.gz | tail -n +2 | gawk ' {for (i=1;i<=NF;i++){a[i]+=$i;++count[i]}} END{ for(i=1;i<=NF;i++){print a[i]/count[i]}}' | paste ~/Desktop/msGBS_data/ES-Article/ES-Lists/ES-Article--AllSamples.labels - > ~/Desktop/msGBS_data/ES-Article/ES-Miscellaneous/ES-RealCoverage/ES-Article--AllSamples_SNPs.GL-RealCoverage.txt
+```
 
-# Missing Data Calculation:
+##### Gets Missing Data (_Genotype Likelihoods_):
 
+```
 zcat ~/Desktop/msGBS_data/ES-Article/ES-ANGSDRuns/ES-Article--AllSamples_SNPs.beagle.gz | tail -n +2 | perl ~/Desktop/msGBS_data/Tools/Scripts/call_geno.pl --skip 3 | cut -f 4- | awk '{ for(i=1;i<=NF; i++){ if($i==-1)x[i]++} } END{ for(i=1;i<=NF; i++) print i"\t"x[i] }' | paste ~/Desktop/msGBS_data/ES-Article/ES-Lists/ES-Article--AllSamples.labels - | awk '{print $1"\t"$3"\t"$3*100/2060}' > ~/Desktop/msGBS_data/ES-Article/ES-Miscellaneous/ES-MissingData/ES-Article--AllSamples_SNPs.GL-MissingData.txt
+```
+***
 
-###                                              ###
-#  MULTIDIMENSIONAL SCALING | ngsDist + get_PCA.R  #
-###                                              ###
+### 7) Multidimensional Scaling | ngsDist + get_PCA.R
 
 ## Here are perform a multidimensional scaling anlyse on the genetic distance matrix created above:
 
-# To get distance matrix:
+##### Gets genetic distance matrix:
 
+```
 ~/Desktop/msGBS_data/Tools/ngsTools/ngsDist/ngsDist --n_threads 8 --geno ~/Desktop/msGBS_data/ES-Article/ES-ANGSDRuns/ES-Article--AllSamples_SNPs.beagle.gz --pairwise_del --seed 33 --probs --n_ind 42 --n_sites 2060 --labels ~/Desktop/msGBS_data/ES-Article/ES-Lists/ES-Article--AllSamples.labels --out ~/Desktop/msGBS_data/ES-Article/ES-MDS/ES-Article--AllSamples_SNPs.dist
+```
 
-# To perform MDS:
+##### Performs MDS:
 
+```
 tail -n +3 ~/Desktop/msGBS_data/ES-Article/ES-MDS/ES-Article--AllSamples_SNPs.dist | Rscript --vanilla --slave ~/Desktop/msGBS_data/Tools/Scripts/get_PCA.R --no_header --data_symm -n 10 -m "mds" -o ~/Desktop/msGBS_data/ES-Article/ES-MDS/ES-Article--AllSamples_SNPs.mds
+```
 
-# Create .annot file:
+##### Creates `.annot` file:
 
+```
 cat ~/Desktop/msGBS_data/ES-Article/ES-Lists/ES-Article--AllSamples.labels | awk '{split($0,a,"_"); print $1"\t"a[1]"_"a[3]}' > ~/Desktop/msGBS_data/ES-Article/ES-MDS/ES-Article--AllSamples_SNPs.annot
+```
+***
 
-###                                            ###
-# ESTIMATION OF INDIVIDUAL ANCESTRIES | ngsAdmix #
-###                                            ###
 
+### 8) Estimation of Individual Ancestries | ngsAdmix
+
+```
 export N_REP=100
 
 for K in `seq -w 2 10`
@@ -88,11 +103,12 @@ do
     echo /groups/hologenomics/fgvieira/scripts/wrapper_ngsAdmix.sh -P 4 -likes ~/data/Temp/Files/ES-Article--AllSamples_SNPs.beagle.gz -K $K -minMaf 0 -tol 1e-6 -tolLike50 1e-3 -maxiter 10000 -o ~/data/Temp/ES-Admix/ES-Article--AllSamples_SNPs.${K}
 
 done | xsbatch -c 4 --mem-per-cpu 1024 --max-array-jobs 9 -J ngsAdmix -R --time 10-00 --
+```
+***
 
-###         ###
-# PHYLOGENIES #
-###         ###
+### 9) Phylogenies
 
+```
 > ~/Desktop/msGBS_data/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump ~/Desktop/msGBS_data/ES-Article/ES-OtherGenomes/SRR5489795.1 --split-files --skip-technical -F --outdir ~/Desktop/msGBS_data/ES-Article/ES-OtherGenomes/FASTQs/ --gzip
 
 > ~/Desktop/msGBS_data/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump ~/Desktop/msGBS_data/ES-Article/ES-OtherGenomes/SRR5489798.1 --split-files --skip-technical -F --outdir ~/Desktop/msGBS_data/ES-Article/ES-OtherGenomes/FASTQs/ --gzip
@@ -104,10 +120,10 @@ done | xsbatch -c 4 --mem-per-cpu 1024 --max-array-jobs 9 -J ngsAdmix -R --time 
 > ~/Desktop/msGBS_data/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump ~/Desktop/msGBS_data/ES-Article/ES-OtherGenomes/SRR5489808.1 --split-files --skip-technical -F --outdir ~/Desktop/msGBS_data/ES-Article/ES-OtherGenomes/FASTQs/ --gzip
 
 > ~/Desktop/msGBS_data/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump ~/Desktop/msGBS_data/ES-Article/ES-OtherGenomes/SRR9139883.1 --split-files --skip-technical -F --outdir ~/Desktop/msGBS_data/ES-Article/ES-OtherGenomes/FASTQs/ --gzip
+```
+***
 
-###                                             ###
-# READS' PROCESSING AND MAPPING | PaleoMix v1.3.2 #
-###                                             ###
+### READS' PROCESSING AND MAPPING | PaleoMix v1.3.2 #
 
 module load Python
 module load AdapterRemoval Bowtie2
