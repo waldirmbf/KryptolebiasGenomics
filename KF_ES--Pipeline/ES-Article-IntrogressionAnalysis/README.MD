@@ -1,7 +1,7 @@
 ## **Introgression analysis using Dsuite (Malinsky & Svardal, 2021)**
 
 
-This folder contains all files used in the Introgression analysis ran using the software **Dsuite v--0.4 r28** [Malinsky & Svardal (2021)](https://onlinelibrary.wiley.com/doi/10.1111/1755-0998.13265).
+This folder contains all files used in the Introgression analysis ran using the software **Dsuite v--0.4 r28** [Malinsky et al. (2021)](https://onlinelibrary.wiley.com/doi/10.1111/1755-0998.13265).
 
 ### 1) Generating .bcf file as input to Dsuite
 

@@ -1,4 +1,4 @@
-## **Introgression analysis using Dsuite (Malinsky & Svardal, 2021)**
+## **Introgression analysis using Dsuite (Malinsky et al. 2021)**
 
  This folder contains the Dsuite files and results used for D and F stats for the dataset considering four species (Kmar, Kher, and Ksp_ES).
 

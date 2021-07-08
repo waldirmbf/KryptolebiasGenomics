@@ -1,4 +1,4 @@
-## **Introgression analysis using Dsuite (Malinsky & Svardal, 2021)**
+## **Introgression analysis using Dsuite (Malinsky et al., 2021)**
 
 
 Given the genetic structure found between samples of the selfing *Kryptolebias* from Central and South America (most likely to represent different lineages within the same species, see [Lira et al. 2021](https://onlinelibrary.wiley.com/doi/epdf/10.1111/jfb.14753)), on this dataset we treat the samples from Panama and Southwest Cuba as a different population/clade ('Kher_CENTRAL'), as strongly supported by our phylogenetic analysis.
