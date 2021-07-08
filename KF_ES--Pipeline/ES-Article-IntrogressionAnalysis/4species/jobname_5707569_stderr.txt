@@ -1,0 +1,6 @@
+There are 4 sets (excluding the Outgroup)
+Going to calculate D and f4-ratio values for 4 trios
+Done permutations
+The VCF contains 9532 variants
+Going to use block size of 475 variants to get 20 Jackknife blocks
+Done processing VCF. Preparing output files...
