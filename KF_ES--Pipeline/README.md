@@ -457,3 +457,9 @@ fgrep '.' *.het | tr ":" " " | awk '{print $1"\t"$3/($2+$3)*100}' | gawk '{print
 
 PBGP--ToPlotProportionOfHeterozygousSites.R
 ***
+#
+#
+#
+### Get Geno-Depth File
+
+tail -n +5253 ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.bcf | less -S
