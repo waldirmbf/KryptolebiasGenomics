@@ -11,6 +11,5 @@
 ![](https://github.com/layka-pacheco/KryptolebiasGenomics/blob/main/KF_ES--Pipeline/KF_ES--GitHubAuxiliaryFiles/KG--PhotoWiki.jpeg)
 
 
-#### Feral pigeons in Doha, Qatar.
-![FPG--PhotoHome](https://user-images.githubusercontent.com/37849281/124642722-75539180-de90-11eb-91ad-a16814fa3710.jpg)
-###### Photo courtesy of [Marie-Christine RUFENER](https://github.com/mcruf).
+#### Male and female representants of _Kryptolebias_.
+###### Photo by [Waldir M. BERBEL-FILHO](https://github.com/waldirmbf).
