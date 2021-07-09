@@ -10,6 +10,6 @@
 
 #### Male and female individuals of _Kryptolebias_.
 
-![](https://github.com/layka-pacheco/KryptolebiasGenomics/blob/main/KF_ES--Pipeline/KF_ES--GitHubAuxiliaryFiles/KG--PhotoWiki.jpeg)
+![](https://github.com/layka-pacheco/KryptolebiasGenomics/blob/main/KG--Pipeline/KG--GitHubAuxiliaryFiles/KG--PhotoWiki.jpeg)
 
 ###### Photo by [Waldir M. BERBEL-FILHO](https://github.com/waldirmbf).
