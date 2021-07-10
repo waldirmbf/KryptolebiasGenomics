@@ -12,4 +12,4 @@
 
 ![](https://github.com/layka-pacheco/KryptolebiasGenomics/blob/main/KG--Pipeline/KG--GitHubAuxiliaryFiles/KG--PhotoWiki.jpeg)
 
-###### Photo by [Waldir M. BERBEL-FILHO](https://github.com/waldirmbf).
+###### Photo by [Waldir M. Berbel-Filho](https://github.com/waldirmbf).
