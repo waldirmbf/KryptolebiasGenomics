@@ -460,6 +460,11 @@ PBGP--ToPlotProportionOfHeterozygousSites.R
 #
 #
 #
-### Get Geno-Depth File
+
+### Gets VCF
+
+/home/waldirmbf/Software/ANGSD-30/angsd/angsd -nThreads 2 -ref /home/waldirmbf/ES-Article_REFGenome/GCA_007896545.1_ASM789654v1_genomic.Edited.fasta -bam /scratch/waldirmbf/ES-Article_ABBABABA/ES-Article--AllSamples_NoKbraNoKgra_SITES_TEST.BAMlist -remove_bads 1 -uniqueOnly 1 -baq 1 -C 50 -minMapQ 30 -minQ 20 -minInd $((3*95/100)) -GL 1 -doPost 1 -doMajorMinor 1 -doMaf 1 -doVcf 1 -doGeno 1 -doCounts 1 -doGlf 2 -MinMaf 0.04 -SNP_pval 1e-6 -doPlink 2 -geno_minDepth 3 -setMaxDepth $((3*600)) -dumpCounts 2 -postCutoff 0.95 -out /scratch/waldirmbf/ES-Article_ANGSDRuns/Test/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_TEST
+
+### Gets Geno-Depth File
 
 tail -n +5253 ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.bcf | less -S
