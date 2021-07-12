@@ -18,12 +18,12 @@ Please contact **Waldir Berbel-Filho** (waldirmbf@gmail.com) should any question
 
 | ID | Species | Population | Link | Reference |
 | -------- | ---------- || --------  | -------- |
-| DAN2K | *K. marmoratus* | Belize | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489803/SRR5489803 | [Lins et al. 2018](https://doi.org/10.1139/gen-2017-0188)
-| HON9 | *K. marmoratus* | Honduras | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489795/SRR5489795 | [Lins et al. 2018](https://doi.org/10.1139/gen-2017-0188)
-| LK1 | *K. marmoratus* | Florida | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489798/SRR5489798 | [Lins et al. 2018](https://doi.org/10.1139/gen-2017-0188)
-| RHL | *K. marmoratus* | San Salvador | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489800/SRR5489800 | [Lins et al. 2018](https://doi.org/10.1139/gen-2017-0188)
-| Gitmo | *K. hermaphroditus* - Central clade | Guantamo bay, Cuba | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489808/SRR5489808 | [Lins et al. 2018](https://doi.org/10.1139/gen-2017-0188)
-| PanRS | *K. hermaphroditus* - Central clade| Panama | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489808/SRR5489808 | [Soi et al. 2021](https://doi.org/10.1016/j.cbd.2020.100684)
+| DAN2K | *K. marmoratus* | Belize | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489803/SRR5489803 | [Lins et al. 2018](https://doi.org/10.1139/gen-2017-0188) |
+| HON9 | *K. marmoratus* | Honduras | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489795/SRR5489795 | [Lins et al. 2018](https://doi.org/10.1139/gen-2017-0188)|
+| LK1 | *K. marmoratus* | Florida | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489798/SRR5489798 | [Lins et al. 2018](https://doi.org/10.1139/gen-2017-0188) |
+| RHL | *K. marmoratus* | San Salvador | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489800/SRR5489800 | [Lins et al. 2018](https://doi.org/10.1139/gen-2017-0188) |
+| Gitmo | *K. hermaphroditus* - Central clade | Guantamo bay, Cuba | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489808/SRR5489808 | [Lins et al. 2018](https://doi.org/10.1139/gen-2017-0188) |
+| PanRS | *K. hermaphroditus* - Central clade| Panama | https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR5489808/SRR5489808 | [Soi et al. 2021](https://doi.org/10.1016/j.cbd.2020.100684) |
 
 ### 2) Genome Editing:
 
