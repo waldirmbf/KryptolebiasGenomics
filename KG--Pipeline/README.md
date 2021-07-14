@@ -303,6 +303,6 @@ PBGP--ToPlotProportionOfHeterozygousSites.R
 ##### Gets required file:
 
 ```
-/home/waldirmbf/Software/bcftools-1.13/bcftools query -f "[%GT,%AD\t]\n" /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD.vcf.gz | awk '{ for(i=1; i<=NF; i++){split($i,a,","); if (a[1] == "0/0" || a[1] == "1/1") {printf " ""NA"" ""NA"} else {printf " "a[2]" "a[3]}} print""}' | cut -d " " -f2- > /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD.txt
+/home/waldirmbf/Software/bcftools-1.13/bcftools query -f "[%GT,%AD\t]\n" /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD.vcf.gz | awk '{ for(i=1; i<=NF; i++){split($i,a,","); if (a[1] == "./." || a[1] == "0/0" || a[1] == "1/1") {printf " ""NA"" ""NA"} else {printf " "a[2]" "a[3]}} print""}' | cut -d " " -f2- > /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD.txt
 ```
 ***
