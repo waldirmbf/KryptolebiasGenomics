@@ -294,10 +294,15 @@ PBGP--ToPlotProportionOfHeterozygousSites.R
 #
 #
 
-### Gets VCF
+##### Indexes `.vcf` file:
 
-/home/waldirmbf/Software/ANGSD-30/angsd/angsd -nThreads 2 -ref /home/waldirmbf/ES-Article_REFGenome/GCA_007896545.1_ASM789654v1_genomic.Edited.fasta -bam /scratch/waldirmbf/ES-Article_ABBABABA/ES-Article--AllSamples_NoKbraNoKgra_SITES_TEST.BAMlist -remove_bads 1 -uniqueOnly 1 -baq 1 -C 50 -minMapQ 30 -minQ 20 -minInd $((3*95/100)) -GL 1 -doPost 1 -doMajorMinor 1 -doMaf 1 -doVcf 1 -doGeno 1 -doCounts 1 -doGlf 2 -MinMaf 0.04 -SNP_pval 1e-6 -doPlink 2 -geno_minDepth 3 -setMaxDepth $((3*600)) -dumpCounts 2 -postCutoff 0.95 -out /scratch/waldirmbf/ES-Article_ANGSDRuns/Test/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_TEST
+```
+/home/waldirmbf/Software/htslib-1.13/tabix -p vcf /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD.vcf.gz
+```
 
-### Gets Geno-Depth File
+##### Gets required file:
 
-tail -n +5253 ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs.bcf | less -S
+```
+/home/waldirmbf/Software/bcftools-1.13/bcftools query -f "[%GT,%AD\t]\n" /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD.vcf.gz | awk '{ for(i=1; i<=NF; i++){split($i,a,","); if (a[1] == "0/0" || a[1] == "1/1") {printf " ""NA"" ""NA"} else {printf " "a[2]" "a[3]}} print""}' | cut -d " " -f2- > /scratch/waldirmbf/ES-Article_ANGSDRuns/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD/ES-Article--AllSamples_NoKbraNoKgra_WithWGSs_SNPs_VcfwithAD.txt
+```
+***
