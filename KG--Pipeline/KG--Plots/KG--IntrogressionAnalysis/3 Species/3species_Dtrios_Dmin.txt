@@ -1,0 +1,2 @@
+P1	P2	P3	Dstatistic	Z-score	p-value	f4-ratio	BBAA	ABBA	BABA
+Kmar	Ksp_ES	Kher	0.0274366	1.16832	0.121339	0.0574998	302.499	895.087	847.282
