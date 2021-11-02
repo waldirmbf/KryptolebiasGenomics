@@ -93,8 +93,8 @@ table(Geno$HomoFixed_Kher_Het_KspESP_AlleleState)
 # Fills ExclusiveToKspESP_AlleleState ~
 for(ROW in 1:nrow(Geno)){
   Geno[ROW, "ExclusiveToKspESP_AlleleState"] <-
-   ifelse(all(Geno[ROW, c(5:8, 11)] == 0) | all(Geno[ROW, c(5:8, 11)] == 1) & all(Geno[ROW, c(9:10, 12:22)] == 2), "ExclusiveToKspESP",
-   ifelse(all(Geno[ROW, c(5:8, 11)] == 2) | all(Geno[ROW, c(5:8, 11)] == 1) & all(Geno[ROW, c(9:10, 12:22)] == 0), "ExclusiveToKspESP",
+   ifelse(all(Geno[ROW, c(5:8, 11)] == 0) & all(Geno[ROW, c(9:10, 12:22)] == 2), "ExclusiveToKspESP_REF",
+   ifelse(all(Geno[ROW, c(5:8, 11)] == 2) & all(Geno[ROW, c(9:10, 12:22)] == 0), "ExclusiveToKspESP_ALT",
    "Other"))}
 
 
@@ -108,8 +108,8 @@ table(Geno$ExclusiveToKspESP_AlleleState)
 # Fills ExclusiveToKher_AlleleState ~
 for(ROW in 1:nrow(Geno)){
   Geno[ROW, "ExclusiveToKher_AlleleState"] <-
-   ifelse(all(Geno[ROW, c(9:10, 12:22)] == 0) | all(Geno[ROW, c(9:10, 12:22)] == 1) & all(Geno[ROW, c(5:8, 11)] == 2), "ExclusiveToKher",
-   ifelse(all(Geno[ROW, c(9:10, 12:22)] == 2) | all(Geno[ROW, c(9:10, 12:22)] == 1) & all(Geno[ROW, c(5:8, 11)] == 0), "ExclusiveToKher",
+   ifelse(all(Geno[ROW, c(9:10, 12:22)] == 0) & all(Geno[ROW, c(5:8, 11)] == 2), "ExclusiveToKher_REF",
+   ifelse(all(Geno[ROW, c(9:10, 12:22)] == 2) & all(Geno[ROW, c(5:8, 11)] == 0), "ExclusiveToKher_AÆT",
    "Other"))}
 
 
