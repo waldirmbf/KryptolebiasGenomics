@@ -102,7 +102,7 @@ for(ROW in 1:nrow(Geno)){
 table(Geno$ExclusiveToKspESP_AlleleState)
 
 
-## 6) How many SNPs contain alleles that are exclusive to KspESP?
+## 6) How many SNPs contain alleles that are exclusive to Kher?
 
 
 # Fills ExclusiveToKher_AlleleState ~
