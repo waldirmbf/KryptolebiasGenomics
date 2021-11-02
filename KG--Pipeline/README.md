@@ -1,7 +1,7 @@
 # **Genetic analysis with SNPs from msGBS library**
 
 
-### ES-Killfish Project Pipeline - by **George PACHECO** [![Foo](../KF_ES--GitHubAuxiliaryFiles/ORCIDGreenRoundIcon.png)](https://orcid.org/0000-0002-9367-6813) & **Waldir M. BERBEL-FILHO** [![Foo](../KF_ES--GitHubAuxiliaryFiles/ORCIDGreenRoundIcon.png)](https://orcid.org/0000-0001-6991-4685)
+### ES-Killfish Project Pipeline - by **George Pacheco** [![Foo](../KG--GitHubAuxiliaryFiles/ORCIDGreenRoundIcon.png)](https://orcid.org/0000-0002-9367-6813) & **Waldir M. Berbel-Filho** [![Foo](../KG--GitHubAuxiliaryFiles/ORCIDGreenRoundIcon.png)](https://orcid.org/0000-0001-6991-4685)
 
 
 This documentation outlines the pipelines used for genetic analysis (SNPs genotypes and sites extracted from msGBS library) in the preprint manuscript
