@@ -60,7 +60,7 @@ for(ROW in 1:nrow(Geno)){
 table(Geno$HomoFixedKspESP_AlleleState)
 
 
-## 3) How many of the 4,976 fixed in Kher is also fixed (either REF or ALT) across all 5 KspESP individuals?
+## 3) How many of the 5,688 SNPS are fixed (either REF or ALT) in Kher and in KspESP?
 
 # Fills HomoFixed_KherKspESP_AlleleState ~
 for(ROW in 1:nrow(Geno)){
@@ -73,7 +73,7 @@ for(ROW in 1:nrow(Geno)){
 table(Geno$HomoFixed_KherKspESP_AlleleState)
 
 
-## 4) How many of the 4,976 fixed in Kher (either REF or ALT) is heterozygous in KspESP?
+## 4) How many of the 5,688 fixed in Kher (either REF or ALT) is heterozygous in KspESP?
 
 # Fills HomoFixed_Kher_Het_KspESP_AlleleState ~
 for(ROW in 1:nrow(Geno)){
