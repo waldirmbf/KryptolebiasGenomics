@@ -1,6 +1,6 @@
 ### The BEGINNING ~~~~~
 ##
-# ~ Gets numbers of exclusive alleles based on a .geno file| By George Pacheco.
+# ~ Gets numbers of exclusive alleles based on a .geno file | By George Pacheco.
 
 
 # Cleans the environment ~ 
