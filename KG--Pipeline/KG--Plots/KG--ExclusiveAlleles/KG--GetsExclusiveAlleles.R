@@ -25,11 +25,6 @@ Geno <- read.table(gzfile("OnlyKherANDKsp.geno.gz"), header = FALSE)
 
 # Expands Geno by adding the AlleleState columns ~
 Geno$HomoFixedKher_AlleleState <- rep(NA, nrow(Geno))
-Geno$HomoFixedKspESP_AlleleState <- rep(NA, nrow(Geno))
-Geno$HomoFixed_KherKspESP_AlleleState <- rep(NA, nrow(Geno))
-Geno$HomoFixed_Kher_Het_KspESP_AlleleState <- rep(NA, nrow(Geno))
-Geno$ExclusiveToKspESP_AlleleState <- rep(NA, nrow(Geno))
-Geno$ExclusiveToKher_AlleleState <- rep(NA, nrow(Geno))
 
 
 ## 1) How many of the 5,688 SNPs are homozygous and fixed (either REF or ALT) across all 13 Kher individuals?
@@ -46,45 +41,60 @@ for(ROW in 1:nrow(Geno)){
 table(Geno$HomoFixedKher_AlleleState)
 
 
-## 2) How many of the 5,688 SNPs are homozygous and fixed (either REF or ALT) across all 5 KspESP individuals?
+# Creates HomoFixedKher dataframe ~
+HomoFixedKher_df <- Geno[ grep("HomoFixed_Kher", Geno$HomoFixedKher_AlleleState), ]
+
+
+# Expands HomoFixedKher_df by adding the AlleleState columns ~
+HomoFixedKher_df$HomoFixed_KherKspESP_AlleleState <- rep(NA, nrow(HomoFixedKher_df))
+HomoFixedKher_df$HomoFixed_Kher_Het_KspESP_AlleleState <- rep(NA, nrow(HomoFixedKher_df))
+
+
+## 2) How many of the 4,976 SNPS that are fixed in Kher are also fixed in KspESP?
+
+# Fills HomoFixed_KherKspESP_AlleleState ~
+for(ROW in 1:nrow(HomoFixedKher_df)){
+  HomoFixedKher_df[ROW, "HomoFixed_KherKspESP_AlleleState"] <-
+    ifelse(all(HomoFixedKher_df[ROW, c(5:8, 11)] == 0) & all(HomoFixedKher_df[ROW, c(9:10, 12:22)] == 2) | 
+           all(HomoFixedKher_df[ROW, c(5:8, 11)] == 2) & all(HomoFixedKher_df[ROW, c(9:10, 12:22)] == 0), "HomoFixed_KherKspESP",
+           "Other")}
+
+# Gets numbers for HomoFixed_KherKspESP_AlleleState ~
+table(HomoFixedKher_df$HomoFixed_KherKspESP_AlleleState)
+
+
+## 3) How many of the 4,976 SNPs fixed in Kher are heterozygous in KspESP?
+
+# Fills HomoFixed_Kher_Het_KspESP_AlleleState ~
+for(ROW in 1:nrow(HomoFixedKher_df)){
+  HomoFixedKher_df[ROW, "HomoFixed_Kher_Het_KspESP_AlleleState"] <-
+    ifelse(all(HomoFixedKher_df[ROW, c(9:10, 12:22)] == 0) & all(HomoFixedKher_df[ROW, c(5:8, 11)] == 1) |
+           all(HomoFixedKher_df[ROW, c(9:10, 12:22)] == 2) & all(HomoFixedKher_df[ROW, c(5:8, 11)] == 1), "HomoFixed_Kher_Het_KspESP",
+           "Other")}
+
+
+# Gets numbers for HomoFixed_Kher_Het_KspESP_AlleleState ~
+table(HomoFixedKher_df$HomoFixed_Kher_Het_KspESP_AlleleState)
+
+
+# Expands Geno by adding further AlleleState columns ~
+Geno$ExclusiveToKspESP_AlleleState <- rep(NA, nrow(Geno))
+Geno$ExclusiveToKher_AlleleState <- rep(NA, nrow(Geno))
+Geno$HomoFixedKspESP_AlleleState <- rep(NA, nrow(Geno))
+
+
+## 4) How many of the 5,688 SNPs are homozygous and fixed (either REF or ALT) across all 5 KspESP individuals?
 
 
 # Fills HomoFixedKspESP_AlleleState ~
 for(ROW in 1:nrow(Geno)){
   Geno[ROW, "HomoFixedKspESP_AlleleState"] <-
-  ifelse(all(Geno[ROW, c(5:8, 11)] == 0) | 
+   ifelse(all(Geno[ROW, c(5:8, 11)] == 0) | 
          all(Geno[ROW, c(5:8, 11)] == 2), "HomoFixed_KspESP",
          "Other")}
 
 # Gets numbers for HomoFixedKspESP_AlleleState ~
 table(Geno$HomoFixedKspESP_AlleleState)
-
-
-## 3) How many of the 5,688 SNPS are fixed (either REF or ALT) in Kher and in KspESP?
-
-# Fills HomoFixed_KherKspESP_AlleleState ~
-for(ROW in 1:nrow(Geno)){
-  Geno[ROW, "HomoFixed_KherKspESP_AlleleState"] <-
-    ifelse(all(Geno[ROW, c(5:8, 11)] == 0) & all(Geno[ROW, c(9:10, 12:22)] == 2) | 
-           all(Geno[ROW, c(5:8, 11)] == 2) & all(Geno[ROW, c(9:10, 12:22)] == 0), "HomoFixed_KherKspESP",
-           "Other")}
-
-# Gets numbers for HomoFixed_KherKspESP_AlleleState ~
-table(Geno$HomoFixed_KherKspESP_AlleleState)
-
-
-## 4) How many of the 5,688 fixed in Kher (either REF or ALT) is heterozygous in KspESP?
-
-# Fills HomoFixed_Kher_Het_KspESP_AlleleState ~
-for(ROW in 1:nrow(Geno)){
-  Geno[ROW, "HomoFixed_Kher_Het_KspESP_AlleleState"] <-
-    ifelse(all(Geno[ROW, c(9:10, 12:22)] == 0) & all(Geno[ROW, c(5:8, 11)] == 1) |
-           all(Geno[ROW, c(9:10, 12:22)] == 2) & all(Geno[ROW, c(5:8, 11)] == 1), "HomoFixed_Kher_Het_KspESP",
-           "Other")}
-
-
-# Gets numbers for HomoFixed_Kher_Het_KspESP_AlleleState ~
-table(Geno$HomoFixed_Kher_Het_KspESP_AlleleState)
 
 
 ## 5) How many SNPs contain alleles that are exclusive to KspESP?
