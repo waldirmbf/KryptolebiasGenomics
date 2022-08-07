@@ -7,7 +7,7 @@
 ***
 
 
-#### Male and hermaphrodite individuals of _Kryptolebias_ sp.
+#### Male and hermaphrodite individuals of _Kryptolebias_ sp 'ESP'.
 
 ![](https://github.com/layka-pacheco/KryptolebiasGenomics/blob/main/KG--Pipeline/KG--GitHubAuxiliaryFiles/KG--RepositoryImage.jpeg)
 
