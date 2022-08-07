@@ -1,0 +1,370 @@
+# -*- mode: Yaml; -*-
+# Default options.
+# Can also be specific for a set of samples, libraries, and lanes,
+# by including the "Options" hierarchy at the same level as those
+# samples, libraries, or lanes below.
+Options:
+  # Sequencing platform, see SAM/BAM reference for valid values
+  Platform: Illumina
+  # Quality offset for Phred scores, either 33 (Sanger/Illumina 1.8+)
+  # or 64 (Illumina 1.3+ / 1.5+). For Bowtie2 it is also possible to
+  # specify 'Solexa', to handle reads on the Solexa scale. This is
+  # used during adapter-trimming and sequence alignment
+  QualityOffset: 33
+
+  # Settings for trimming of reads, see AdapterRemoval man-page
+  AdapterRemoval:
+     # Set and uncomment to override defaults adapter sequences
+#     --adapter1: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG
+#     --adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+     # Some BAM pipeline defaults differ from AR defaults;
+     # To override, change these value(s):
+#     --mm: 3
+#     --minlength: 30
+     # Extra features enabled by default; change 'yes' to 'no' to disable
+     --collapse: no
+     --trimns: no
+     --trimqualities: no
+
+  # Settings for aligners supported by the pipeline
+  Aligners:
+    # Choice of aligner software to use, either "BWA" or "Bowtie2"
+    Program: BWA
+
+    # Settings for mappings performed using BWA
+    BWA:
+      # One of "backtrack", "bwasw", or "mem"; see the BWA documentation
+      # for a description of each algorithm (defaults to 'backtrack')
+      Algorithm: mem
+      # Filter aligned reads with a mapping quality (Phred) below this value
+      MinQuality: 20
+      # Filter reads that did not map to the reference sequence
+      FilterUnmappedReads: yes
+      # May be disabled ("no") for aDNA alignments with the 'aln' algorithm.
+      # Post-mortem damage localizes to the seed region, which BWA expects to
+      # have few errors (sets "-l"). See http://pmid.us/22574660
+      UseSeed: yes
+      # Additional command-line options may be specified below. For 'backtrack' these
+      # are applied to the "bwa aln". See Bowtie2 for more examples.
+      # -n: 0.04
+
+    # Settings for mappings performed using Bowtie2
+    # Bowtie2:
+      # Filter aligned reads with a mapping quality (Phred) below this value
+      # MinQuality: 20
+      # Filter reads that did not map to the reference sequence
+      # FilterUnmappedReads: yes
+      # Examples of how to add additional command-line options
+#      --trim5: 5
+#      --trim3: 5
+      # Note that the colon is required, even if no value is specified
+      # --very-sensitive:
+      # Example of how to specify multiple values for an option
+#      --rg:
+#        - CN:SequencingCenterNameHere
+#        - DS:DescriptionOfReadGroup
+
+  # Command-line options for mapDamage; use long-form options(--length not -l):
+  mapDamage:
+    # By default, the pipeline will downsample the input to 100k hits
+    # when running mapDamage; remove to use all hits
+    --downsample: 100000
+
+  # Set to 'yes' exclude a type of trimmed reads from alignment / analysis;
+  # possible read-types reflect the output of AdapterRemoval
+  ExcludeReads:
+    # Exclude single-end reads (yes / no)?
+    Single: no
+    # Exclude non-collapsed paired-end reads (yes / no)?
+    Paired: no
+    # Exclude paired-end reads for which the mate was discarded (yes / no)?
+    Singleton: no
+    # Exclude overlapping paired-ended reads collapsed into a single sequence
+    # by AdapterRemoval (yes / no)?
+    Collapsed: no
+    # Like 'Collapsed', but only for collapsed reads truncated due to the
+    # presence of ambiguous or low quality bases at read termini (yes / no).
+    CollapsedTruncated: no
+
+  # Optional steps to perform during processing.
+  Features:
+    # If set to 'filter', PCR duplicates are removed from the output files; if set to
+    # 'mark', PCR duplicates are flagged with bit 0x400, and not removed from the
+    # output files; if set to 'no', the reads are assumed to not have been amplified.
+    PCRDuplicates: no
+    # Set to 'no' to disable mapDamage; set to 'plots' to build basic mapDamage plots;
+    # set to 'model' to build plots and post-mortem damage models; and set to 'rescale'
+    # to build plots, models, and BAMs with rescaled quality scores. All analyses are
+    # carried out per library.
+    mapDamage: no
+    # Generate coverage information for the final BAM and for each 'RegionsOfInterest'
+    # specified in 'Prefixes' (yes / no).
+    Coverage: yes
+    # Generate histograms of number of sites with a given read-depth, from 0 to 200,
+    # for each BAM and for each 'RegionsOfInterest' specified in 'Prefixes' (yes / no).
+    Depths: yes
+    # Generate summary table for each target (yes / no)
+    Summary: yes
+
+# Map of prefixes by name, each having a Path, which specifies the location of the
+# BWA/Bowtie2 index, and optional regions for which additional statistics are produced.
+Prefixes:
+  # Replace 'NAME_OF_PREFIX' with name of the prefix; this name is used in summary
+  # statistics and as part of output filenames.
+  Khermaphroditus_REF_PanRS_BWA:
+    # Uncomment and replace 'PATH_TO_PREFIX' with the path to .fasta file
+    # containing the references against which reads are to be mapped.
+    Path: /scratch/waldirmbf/ReferenceGenome/GCA_007896545.1_ASM789654v1_genomic.Edited.fasta
+
+
+ES1_03_KspESP:
+ ES1_03_KspESP_SAMPLE:
+   ES1_03_KspESP_LIBRARY:
+     ES1_03_KspESP_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/ES1_03_KspESP.fq
+
+ES1_05_KspESP:
+ ES1_05_KspESP_SAMPLE:
+   ES1_05_KspESP_LIBRARY:
+     ES1_05_KspESP_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/ES1_05_KspESP.fq
+
+ES1_07_KspESP:
+ ES1_07_KspESP_SAMPLE:
+   ES1_07_KspESP_LIBRARY:
+     ES1_07_KspESP_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/ES1_07_KspESP.fq
+
+ES1_14_KspESP:
+ ES1_14_KspESP_SAMPLE:
+   ES1_14_KspESP_LIBRARY:
+     ES1_14_KspESP_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/ES1_14_KspESP.fq
+
+ES1_17_KspESP:
+ ES1_17_KspESP_SAMPLE:
+   ES1_17_KspESP_LIBRARY:
+     ES1_17_KspESP_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/ES1_17_KspESP.fq
+
+ES1_15_Kher:
+ ES1_15_Kher_SAMPLE:
+   ES1_15_Kher_LIBRARY:
+     ES1_15_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/ES1_15_Kher.fq
+
+ES1_16_Kher:
+ ES1_16_Kher_SAMPLE:
+   ES1_16_Kher_LIBRARY:
+     ES1_16_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/ES1_16_Kher.fq
+
+RJ3_03_Kbra:
+ RJ3_03_Kbra_SAMPLE:
+   RJ3_03_Kbra_LIBRARY:
+     RJ3_03_Kbra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ3_03_Kbra.fq
+
+RJ3_05_Kbra:
+ RJ3_05_Kbra_SAMPLE:
+   RJ3_05_Kbra_LIBRARY:
+     RJ3_05_Kbra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ3_05_Kbra.fq
+
+RJ3_06_Kbra:
+ RJ3_06_Kbra_SAMPLE:
+   RJ3_06_Kbra_LIBRARY:
+     RJ3_06_Kbra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ3_06_Kbra.fq
+
+RJ3_12_Kbra:
+ RJ3_12_Kbra_SAMPLE:
+   RJ3_12_Kbra_LIBRARY:
+     RJ3_12_Kbra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ3_12_Kbra.fq
+
+RJ3_13_Kbra:
+ RJ3_13_Kbra_SAMPLE:
+   RJ3_13_Kbra_LIBRARY:
+     RJ3_13_Kbra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ3_13_Kbra.fq
+
+RJ3_15_Kbra:
+ RJ3_15_Kbra_SAMPLE:
+   RJ3_15_Kbra_LIBRARY:
+     RJ3_15_Kbra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ3_15_Kbra.fq
+
+RJ3_16_Kbra:
+ RJ3_16_Kbra_SAMPLE:
+   RJ3_16_Kbra_LIBRARY:
+     RJ3_16_Kbra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ3_16_Kbra.fq
+
+RJ6_03_Kgra:
+ RJ6_03_Kgra_SAMPLE:
+   RJ6_03_Kgra_LIBRARY:
+     RJ6_03_Kgra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ6_03_Kgra.fq
+
+RJ6_04_Kgra:
+ RJ6_04_Kgra_SAMPLE:
+   RJ6_04_Kgra_LIBRARY:
+     RJ6_04_Kgra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ6_04_Kgra.fq
+
+RJ6_06_Kgra:
+ RJ6_06_Kgra_SAMPLE:
+   RJ6_06_Kgra_LIBRARY:
+     RJ6_06_Kgra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ6_06_Kgra.fq
+
+RJ6_07_Kgra:
+ RJ6_07_Kgra_SAMPLE:
+   RJ6_07_Kgra_LIBRARY:
+     RJ6_07_Kgra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ6_07_Kgra.fq
+
+RJ6_08_Kgra:
+ RJ6_08_Kgra_SAMPLE:
+   RJ6_08_Kgra_LIBRARY:
+     RJ6_08_Kgra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ6_08_Kgra.fq
+
+RJ6_09_Kgra:
+ RJ6_09_Kgra_SAMPLE:
+   RJ6_09_Kgra_LIBRARY:
+     RJ6_09_Kgra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ6_09_Kgra.fq
+
+RJ6_10_Kgra:
+ RJ6_10_Kgra_SAMPLE:
+   RJ6_10_Kgra_LIBRARY:
+     RJ6_10_Kgra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ6_10_Kgra.fq
+
+RJ6_11_Kgra:
+ RJ6_11_Kgra_SAMPLE:
+   RJ6_11_Kgra_LIBRARY:
+     RJ6_11_Kgra_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ6_11_Kgra.fq
+
+RJ4_04_Koce:
+ RJ4_04_Koce_SAMPLE:
+   RJ4_04_Koce_LIBRARY:
+     RJ4_04_Koce_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_04_Koce.fq
+
+RJ4_05_Koce:
+ RJ4_05_Koce_SAMPLE:
+   RJ4_05_Koce_LIBRARY:
+     RJ4_05_Koce_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_05_Koce.fq
+
+RJ4_06_Koce:
+ RJ4_06_Koce_SAMPLE:
+   RJ4_06_Koce_LIBRARY:
+     RJ4_06_Koce_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_06_Koce.fq
+
+RJ4_10_Koce:
+ RJ4_10_Koce_SAMPLE:
+   RJ4_10_Koce_LIBRARY:
+     RJ4_10_Koce_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_10_Koce.fq
+
+RJ4_11_Koce:
+ RJ4_11_Koce_SAMPLE:
+   RJ4_11_Koce_LIBRARY:
+     RJ4_11_Koce_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_11_Koce.fq
+
+RJ4_13_Koce:
+ RJ4_13_Koce_SAMPLE:
+   RJ4_13_Koce_LIBRARY:
+     RJ4_13_Koce_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_13_Koce.fq
+
+RJ4_16_Koce:
+ RJ4_16_Koce_SAMPLE:
+   RJ4_16_Koce_LIBRARY:
+     RJ4_16_Koce_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_16_Koce.fq
+
+RJ4_18_Koce:
+ RJ4_18_Koce_SAMPLE:
+   RJ4_18_Koce_LIBRARY:
+     RJ4_18_Koce_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_18_Koce.fq
+
+RJ4_19_Koce:
+ RJ4_19_Koce_SAMPLE:
+   RJ4_19_Koce_LIBRARY:
+     RJ4_19_Koce_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_19_Koce.fq
+
+RJ4_27_Kher:
+ RJ4_27_Kher_SAMPLE:
+   RJ4_27_Kher_LIBRARY:
+     RJ4_27_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_27_Kher.fq
+
+RJ4_28_Kher:
+ RJ4_28_Kher_SAMPLE:
+   RJ4_28_Kher_LIBRARY:
+     RJ4_28_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_28_Kher.fq
+
+RJ4_29_Kher:
+ RJ4_29_Kher_SAMPLE:
+   RJ4_29_Kher_LIBRARY:
+     RJ4_29_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_29_Kher.fq
+
+RJ4_30_Kher:
+ RJ4_30_Kher_SAMPLE:
+   RJ4_30_Kher_LIBRARY:
+     RJ4_30_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_30_Kher.fq
+
+RJ4_31_Kher:
+ RJ4_31_Kher_SAMPLE:
+   RJ4_31_Kher_LIBRARY:
+     RJ4_31_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_31_Kher.fq
+
+RJ4_37_Kher:
+ RJ4_37_Kher_SAMPLE:
+   RJ4_37_Kher_LIBRARY:
+     RJ4_37_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_37_Kher.fq
+
+RJ4_39_Kher:
+ RJ4_39_Kher_SAMPLE:
+   RJ4_39_Kher_LIBRARY:
+     RJ4_39_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_39_Kher.fq
+
+RJ4_40_Kher:
+ RJ4_40_Kher_SAMPLE:
+   RJ4_40_Kher_LIBRARY:
+     RJ4_40_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_40_Kher.fq
+
+RJ4_41_Kher:
+ RJ4_41_Kher_SAMPLE:
+   RJ4_41_Kher_LIBRARY:
+     RJ4_41_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_41_Kher.fq
+
+RJ4_43_Kher:
+ RJ4_43_Kher_SAMPLE:
+   RJ4_43_Kher_LIBRARY:
+     RJ4_43_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_43_Kher.fq
+
+RJ4_44_Kher:
+ RJ4_44_Kher_SAMPLE:
+   RJ4_44_Kher_LIBRARY:
+     RJ4_44_Kher_LANE:
+       Singleton: /scratch/waldirmbf/GBSsamples/Fastq_samples/RJ4_44_Kher.fq

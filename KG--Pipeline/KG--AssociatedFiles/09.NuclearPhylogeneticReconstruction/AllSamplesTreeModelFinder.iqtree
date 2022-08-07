@@ -1,0 +1,233 @@
+IQ-TREE 2.1.0 COVID-edition built Nov 11 2021
+
+Input file name: /scratch/waldirmbf/Phylo/AllSamples_SITES.fasta
+Type of analysis: ModelFinder + tree reconstruction
+Random seed number: 382931
+
+REFERENCES
+----------
+
+To cite IQ-TREE please use:
+
+Bui Quang Minh, Heiko A. Schmidt, Olga Chernomor, Dominik Schrempf,
+Michael D. Woodhams, Arndt von Haeseler, and Robert Lanfear (2020)
+IQ-TREE 2: New models and efficient methods for phylogenetic inference
+in the genomic era. Mol. Biol. Evol., in press.
+https://doi.org/10.1093/molbev/msaa015
+
+To cite ModelFinder please use: 
+
+Subha Kalyaanamoorthy, Bui Quang Minh, Thomas KF Wong, Arndt von Haeseler,
+and Lars S Jermiin (2017) ModelFinder: Fast model selection for
+accurate phylogenetic estimates. Nature Methods, 14:587–589.
+https://doi.org/10.1038/nmeth.4285
+
+SEQUENCE ALIGNMENT
+------------------
+
+Input data: 49 sequences with 174842 nucleotide sites
+Number of constant sites: 161782 (= 92.5304% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 161782 (= 92.5304% of all sites)
+Number of parsimony informative sites: 4047
+Number of distinct site patterns: 4554
+
+ModelFinder
+-----------
+
+Best-fit model according to BIC: TVMe+R2
+
+List of models sorted by BIC scores: 
+
+Model                  LogL         AIC      w-AIC        AICc     w-AICc         BIC      w-BIC
+TVMe+R2         -385958.317  772118.634 +    0.191  772118.752 +    0.192  773135.869 +    0.998
+SYM+R2          -385958.339  772120.678 +   0.0689  772120.798 +    0.069  773147.985 -  0.00233
+TVM+F+R2        -385954.309  772116.617 +    0.525  772116.742 +    0.524  773164.068 - 7.51e-07
+GTR+F+R2        -385954.329  772118.657 +    0.189  772118.784 +    0.189  773176.179 - 1.76e-09
+GTR+F+R3        -385954.316  772122.633 -   0.0259  772122.765 -   0.0258  773200.298 - 1.02e-14
+K3P+R2          -386024.028  772246.056 -  4.1e-29  772246.170 - 4.12e-29  773243.148 - 5.05e-24
+TIMe+R2         -386024.033  772248.066 -  1.5e-29  772248.181 - 1.51e-29  773255.230 -  1.2e-26
+K3Pu+F+R2       -386017.710  772239.420 - 1.13e-27  772239.540 - 1.13e-27  773266.727 - 3.83e-29
+TIM+F+R2        -386017.715  772241.429 - 4.14e-28  772241.552 - 4.15e-28  773278.808 - 9.13e-32
+TIM2e+R2        -386083.298  772366.596 - 2.74e-55  772366.712 - 2.75e-55  773373.760 -  2.2e-52
+TIM3e+R2        -386088.187  772376.375 - 2.06e-57  772376.490 - 2.07e-57  773383.538 - 1.65e-54
+TPM2u+F+R2      -386079.713  772363.426 - 1.34e-54  772363.547 - 1.34e-54  773390.733 - 4.53e-56
+TPM2+F+R2       -386079.713  772363.426 - 1.34e-54  772363.547 - 1.34e-54  773390.733 - 4.53e-56
+TPM3+F+R2       -386081.059  772366.119 - 3.48e-55  772366.239 - 3.48e-55  773393.426 - 1.18e-56
+TPM3u+F+R2      -386081.059  772366.119 - 3.48e-55  772366.239 - 3.48e-55  773393.426 - 1.18e-56
+TIM2+F+R2       -386079.732  772365.463 - 4.83e-55  772365.586 - 4.83e-55  773402.842 - 1.06e-58
+TIM3+F+R2       -386081.052  772368.105 - 1.29e-55  772368.227 - 1.29e-55  773405.483 - 2.84e-59
+K2P+R2          -386118.127  772432.253 - 1.51e-69  772432.364 - 1.52e-69  773419.274 - 2.87e-62
+TNe+R2          -386118.126  772434.253 - 5.57e-70  772434.366 -  5.6e-70  773431.345 - 6.87e-65
+HKY+F+R2        -386111.553  772425.105 -  5.4e-68  772425.223 - 5.42e-68  773442.341 - 2.82e-67
+TN+F+R2         -386111.552  772427.104 - 1.99e-68  772427.225 - 1.99e-68  773454.411 - 6.74e-70
+GTR+F+I+G4      -386773.289  773756.579 -        0  773756.706 -        0  774814.101 -        0
+JC+R2           -387202.916  774599.833 -        0  774599.942 -        0  775576.782 -        0
+F81+F+R2        -387195.791  774591.581 -        0  774591.697 -        0  775598.745 -        0
+GTR+F+I         -387448.526  775105.052 -        0  775105.177 -        0  776152.503 -        0
+GTR+F+G4        -389459.741  779127.483 -        0  779127.608 -        0  780174.933 -        0
+GTR+F           -397746.967  795699.934 -        0  795700.056 -        0  796737.313 -        0
+
+AIC, w-AIC   : Akaike information criterion scores and weights.
+AICc, w-AICc : Corrected AIC scores and weights.
+BIC, w-BIC   : Bayesian information criterion scores and weights.
+
+Plus signs denote the 95% confidence sets.
+Minus signs denote significant exclusion.
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: TVMe+R2
+
+Rate parameter R:
+
+  A-C: 1.0094
+  A-G: 1.7857
+  A-T: 0.9095
+  C-G: 0.6160
+  C-T: 1.7857
+  G-T: 1.0000
+
+State frequencies: (equal frequencies)
+
+Rate matrix Q:
+
+  A    -1.043    0.2841    0.5026     0.256
+  C    0.2841     -0.96    0.1734    0.5026
+  G    0.5026    0.1734   -0.9574    0.2814
+  T     0.256    0.5026    0.2814     -1.04
+
+Model of rate heterogeneity: FreeRate with 2 categories
+Site proportion and rates:  (0.9693,0.3761) (0.03068,20.71)
+
+ Category  Relative_rate  Proportion
+  1         0.3761         0.9693
+  2         20.71          0.03068
+
+TREE USED FOR ModelFinder
+-------------------------
+
+Log-likelihood of the tree: -385958.2764 (s.e. 1224.6319)
+Unconstrained log-likelihood (without tree): -555149.4208
+Number of free parameters (#branches + #model parameters): 101
+Akaike information criterion (AIC) score: 772118.5528
+Corrected Akaike information criterion (AICc) score: 772118.6707
+Bayesian information criterion (BIC) score: 773135.7882
+
+Total tree length (sum of branch lengths): 0.1598
+Sum of internal branch lengths: 0.0431 (26.9456% of tree length)
+
+WARNING: 9 near-zero internal branches (<0.0000) should be treated with caution
+         Such branches are denoted by '**' in the figure below
+
+NOTE: Tree is UNROOTED although outgroup taxon 'ES1_03_KspESP' is drawn at root
+
++--ES1_03_KspESP
+|
++--ES1_05_KspESP
+|
+|     +--ES1_07_KspESP
+|  +--|
+|  |  |                       +--ES1_15_Kher
+|  |  |                    +--|
+|  |  |                    |  +--RJ4_44_Kher
+|  |  |                 +**|
+|  |  |                 |  |     +--ES1_16_Kher
+|  |  |                 |  |  +**|
+|  |  |                 |  |  |  +--RJ4_37_Kher
+|  |  |                 |  +**|
+|  |  |                 |     |  +--RJ4_30_Kher
+|  |  |                 |     +**|
+|  |  |                 |        +--RJ4_40_Kher
+|  |  |              +--|
+|  |  |              |  |           +--RJ4_28_Kher
+|  |  |              |  |        +**|
+|  |  |              |  |        |  +--RJ4_31_Kher
+|  |  |              |  |     +**|
+|  |  |              |  |     |  +--RJ4_41_Kher
+|  |  |              |  |  +**|
+|  |  |              |  |  |  +--RJ4_29_Kher
+|  |  |              |  +**|
+|  |  |              |     +--RJ4_43_Kher
+|  |  |           +--|
+|  |  |           |  +--RJ4_39_Kher
+|  |  |        +--|
+|  |  |        |  +--RJ4_27_Kher
+|  |  |     +--|
+|  |  |     |  |  +--Khermaphroditus_Gitmo
+|  |  |     |  +--|
+|  |  |     |     +--Khermaphroditus_REF_PanRS
+|  |  |  +--|
+|  |  |  |  |        +--Kmarmoratus_DAN2K
+|  |  |  |  |     +--|
+|  |  |  |  |     |  +--Kmarmoratus_HON9
+|  |  |  |  |  +--|
+|  |  |  |  |  |  +--Kmarmoratus_LK1
+|  |  |  |  +--|
+|  |  |  |     +--Kmarmoratus_RHL
+|  |  +--|
+|  |     |                                  +--RJ3_03_Kbra
+|  |     |                               +--|
+|  |     |                               |  +--RJ3_06_Kbra
+|  |     |                            +--|
+|  |     |                            |  |  +--RJ3_15_Kbra
+|  |     |                            |  +--|
+|  |     |                            |     |     +--RJ6_06_Kgra
+|  |     |                            |     |  +--|
+|  |     |                            |     |  |  |     +--RJ6_07_Kgra
+|  |     |                            |     |  |  |  +--|
+|  |     |                            |     |  |  |  |  +--RJ6_08_Kgra
+|  |     |                            |     |  |  +--|
+|  |     |                            |     |  |     |  +--RJ6_10_Kgra
+|  |     |                            |     |  |     +--|
+|  |     |                            |     |  |        +--RJ6_11_Kgra
+|  |     |                            |     +--|
+|  |     |                            |        +--RJ6_09_Kgra
+|  |     |                         +--|
+|  |     |                         |  +--RJ3_12_Kbra
+|  |     |                      +--|
+|  |     |                      |  +--RJ3_13_Kbra
+|  |     |                   +--|
+|  |     |                   |  +--RJ3_05_Kbra
+|  |     |     +-------------|
+|  |     |     |             +--RJ3_16_Kbra
+|  |     |  +**|
+|  |     |  |  +--------------------------------------------------------Nwhitei_Outgroup
+|  |     +--|
+|  |        |           +--RJ4_04_Koce
+|  |        |        +--|
+|  |        |        |  |                 +--RJ6_03_Kgra
+|  |        |        |  +-----------------|
+|  |        |        |                    +--RJ6_04_Kgra
+|  |        |     +--|
+|  |        |     |  +--RJ4_05_Koce
+|  |        |  +--|
+|  |        |  |  |        +--RJ4_06_Koce
+|  |        |  |  |     +--|
+|  |        |  |  |     |  |  +--RJ4_10_Koce
+|  |        |  |  |     |  +--|
+|  |        |  |  |     |     |  +--RJ4_18_Koce
+|  |        |  |  |     |     +--|
+|  |        |  |  |     |        +--RJ4_19_Koce
+|  |        |  |  |  +--|
+|  |        |  |  |  |  +--RJ4_13_Koce
+|  |        |  |  +--|
+|  |        |  |     +--RJ4_11_Koce
+|  |        +--|
+|  |           +--RJ4_16_Koce
++--|
+   |  +--ES1_14_KspESP
+   +--|
+      +--ES1_17_KspESP
+
+Tree in newick format:
+
+(ES1_03_KspESP:0.0022647032,ES1_05_KspESP:0.0018791625,((ES1_07_KspESP:0.0023428079,((((((((ES1_15_Kher:0.0011876137,RJ4_44_Kher:0.0014228984):0.0000073879,((ES1_16_Kher:0.0009006350,RJ4_37_Kher:0.0008368931):0.0000046662,(RJ4_30_Kher:0.0010435377,RJ4_40_Kher:0.0010668094):0.0000005928):0.0000055999):0.0000008986,((((RJ4_28_Kher:0.0009974270,RJ4_31_Kher:0.0011017765):0.0000006367,RJ4_41_Kher:0.0009213372):0.0000055974,RJ4_29_Kher:0.0011197245):0.0000056084,RJ4_43_Kher:0.0011378777):0.0000053417):0.0000117839,RJ4_39_Kher:0.0011798694):0.0000108478,RJ4_27_Kher:0.0013933965):0.0001206312,(Khermaphroditus_Gitmo:0.0008678721,Khermaphroditus_REF_PanRS:0.0004336165):0.0001033856):0.0001212906,(((Kmarmoratus_DAN2K:0.0002418466,Kmarmoratus_HON9:0.0003577168):0.0000448781,Kmarmoratus_LK1:0.0008674673):0.0000879237,Kmarmoratus_RHL:0.0019268852):0.0008703568):0.0006242031,((((((((RJ3_03_Kbra:0.0017339449,RJ3_06_Kbra:0.0016773632):0.0001149790,(RJ3_15_Kbra:0.0011188601,((RJ6_06_Kgra:0.0009846901,((RJ6_07_Kgra:0.0009515509,RJ6_08_Kgra:0.0008495807):0.0000370779,(RJ6_10_Kgra:0.0010025414,RJ6_11_Kgra:0.0010893346):0.0000502179):0.0000189992):0.0001056688,RJ6_09_Kgra:0.0014900088):0.0007570833):0.0001203468):0.0001391974,RJ3_12_Kbra:0.0017536533):0.0001148718,RJ3_13_Kbra:0.0023052898):0.0002766181,RJ3_05_Kbra:0.0022399470):0.0011586187,RJ3_16_Kbra:0.0012615240):0.0135148362,Nwhitei_Outgroup:0.0533855138):0.0000006807,((((RJ4_04_Koce:0.0011616368,(RJ6_03_Kgra:0.0010906782,RJ6_04_Kgra:0.0009830518):0.0173160940):0.0010428251,RJ4_05_Koce:0.0021305146):0.0001921668,(((RJ4_06_Koce:0.0012682664,(RJ4_10_Koce:0.0013329410,(RJ4_18_Koce:0.0013439489,RJ4_19_Koce:0.0013360645):0.0000765704):0.0000392615):0.0000589323,RJ4_13_Koce:0.0018062192):0.0000395037,RJ4_11_Koce:0.0013413813):0.0001016939):0.0003723274,RJ4_16_Koce:0.0013694662):0.0029451929):0.0009225313):0.0004026518):0.0003067993,(ES1_14_KspESP:0.0021889596,ES1_17_KspESP:0.0020842163):0.0004523581):0.0003612494);
+
+TIME STAMP
+----------
+
+Date and time: Sat Jul 30 17:09:31 2022
+Total CPU time used: 0.375831 seconds (0h:0m:0s)
+Total wall-clock time used: 0.38083075 seconds (0h:0m:0s)
+
