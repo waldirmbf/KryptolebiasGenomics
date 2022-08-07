@@ -1,6 +1,6 @@
 # _Kryptolebias Genomics_
 
-### Code repository for analyses conducted in Berbel-Filho et al. (2022).
+### Code repository for analyses conducted in Berbel-Filho et al. (XXX).
 
 - Please visit the [Wiki page](https://github.com/layka-pacheco/KryptolebiasGenomics/wiki) for detailed information on the individual analyses.
 
